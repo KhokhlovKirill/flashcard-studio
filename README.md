@@ -1,10 +1,26 @@
-# FlashCard Studio
+<div align="center">
+  <img src="icons/app_icon.svg" alt="FlashCard Studio app icon" width="84" height="84" />
+  <h1>FlashCard Studio</h1>
+  <p><b>Desktop app for creating and learning flashcards with spaced repetition.</b></p>
+  <p>
+    <img src="icons/add.svg" alt="Add icon" width="16" height="16" />
+    &nbsp;Create decks quickly&nbsp;&nbsp;•&nbsp;&nbsp;Review smarter&nbsp;&nbsp;•&nbsp;&nbsp;Ship as Windows installer
+  </p>
+</div>
 
-Desktop application for creating and learning flashcards with spaced repetition.
+---
+
+## Product Style
+
+FlashCard Studio follows a clean, focused UI style inspired by modern Material-like desktop patterns:
+
+- **Primary color:** `#1976D2` (same as app icon)
+- **Minimal iconography:** simple monochrome SVG actions (including `icons/add.svg`)
+- **Clear hierarchy:** distraction-free flow for creating and reviewing cards
 
 ## Build Windows Installer (NSIS)
 
-This project uses CMake + CPack to generate a Windows installer that includes Qt runtime dependencies.
+This project uses CMake + CPack to generate a Windows installer with Qt runtime dependencies included.
 
 ### Prerequisites
 
@@ -14,7 +30,7 @@ This project uses CMake + CPack to generate a Windows installer that includes Qt
 - MinGW toolchain (for example `mingw1310_64`)
 - NSIS (or run from CI where NSIS is preinstalled)
 
-### Commands
+### Build Commands
 
 From repository root:
 
@@ -28,22 +44,22 @@ cpack -G NSIS --config build-mingw/CPackConfig.cmake
 
 ### Installer Output
 
-Generated installer is placed in the `build-mingw/` directory and has `.exe` extension.
+The generated installer is placed in `build-mingw/` and has the `.exe` extension.
 
-### What the installer does
+### Installer Includes
 
-- Installs `FlashCardStudio.exe`
-- Deploys required Qt runtime libraries/plugins via Qt deploy script
-- Installs required runtime libraries detected by CMake/Qt deploy
-- Creates Start Menu and Desktop shortcuts
-- Registers `.flcr` file association to open projects with FlashCard Studio
-- Adds uninstaller
+- `FlashCardStudio.exe`
+- Required Qt runtime libraries and plugins (via Qt deploy script)
+- Additional runtime libraries detected by CMake/Qt deploy
+- Start Menu and Desktop shortcuts
+- `.flcr` file association for FlashCard Studio projects
+- Uninstaller registration
 
 ## Release Workflow
 
 GitHub Actions workflow: `.github/workflows/release-installer.yml`
 
-- Runs on manual trigger (`workflow_dispatch`) and git tags (`v*`)
+- Triggered manually (`workflow_dispatch`) and on tags (`v*`)
 - Builds Release package on `windows-latest`
 - Produces NSIS installer and uploads it as workflow artifact
 
@@ -53,7 +69,7 @@ After installing on a clean machine:
 
 1. Launch FlashCard Studio from Start Menu.
 2. Create a project and save it as `.flcr`.
-3. Close the app and open that `.flcr` by double-clicking it in Explorer.
+3. Close the app and open that `.flcr` file via double-click in Explorer.
 4. Verify deck list, edit view, and learn view open correctly.
 5. Uninstall from Apps & Features and verify app binaries are removed.
 
