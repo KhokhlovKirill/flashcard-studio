@@ -10,14 +10,6 @@
 
 ---
 
-## Product Style
-
-FlashCard Studio follows a clean, focused UI style inspired by modern Material-like desktop patterns:
-
-- **Primary color:** `#1976D2` (same as app icon)
-- **Minimal iconography:** simple monochrome SVG actions (including `icons/add.svg`)
-- **Clear hierarchy:** distraction-free flow for creating and reviewing cards
-
 ## Build Windows Installer (NSIS)
 
 This project uses CMake + CPack to generate a Windows installer with Qt runtime dependencies included.
@@ -62,14 +54,3 @@ GitHub Actions workflow: `.github/workflows/release-installer.yml`
 - Triggered manually (`workflow_dispatch`) and on tags (`v*`)
 - Builds Release package on `windows-latest`
 - Produces NSIS installer and uploads it as workflow artifact
-
-## Post-install Smoke Check
-
-After installing on a clean machine:
-
-1. Launch FlashCard Studio from Start Menu.
-2. Create a project and save it as `.flcr`.
-3. Close the app and open that `.flcr` file via double-click in Explorer.
-4. Verify deck list, edit view, and learn view open correctly.
-5. Uninstall from Apps & Features and verify app binaries are removed.
-
