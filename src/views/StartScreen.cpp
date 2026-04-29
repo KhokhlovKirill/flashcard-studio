@@ -22,6 +22,7 @@ static const char* kRecentKey = "recentFiles";
 StartScreen::StartScreen(QWidget* parent)
     : QWidget(parent)
 {
+    setWindowIcon(QIcon(":/icons/app_icon.svg"));
     setupUi();
     connectSignals();
     refreshRecentFiles();

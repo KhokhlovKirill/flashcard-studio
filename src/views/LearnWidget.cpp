@@ -11,6 +11,7 @@
 #include <QKeySequence>
 #include <QShortcut>
 #include <QFont>
+#include <QFontInfo>
 #include <QIcon>
 
 // ── Rating button helper ─────────────────────────────────────────────────────
@@ -29,6 +30,32 @@ static QPushButton* makeRatingButton(const QString& text,
                 "QPushButton:pressed { padding: 5px 7px 3px 9px; }")
         .arg(colorHex));
     return btn;
+}
+
+static int scaledCardPointSize(const QFont& font)
+{
+    int basePointSize = font.pointSize();
+    if (basePointSize <= 0)
+        basePointSize = QFontInfo(font).pointSize();
+    if (basePointSize <= 0)
+        basePointSize = 12;
+    return basePointSize * 3;
+}
+
+static QString centeredCardHtml(const QString& html, int fontPointSize)
+{
+    return QString(
+               "<style>"
+               "#cardRoot, #cardRoot * { font-size: %1pt !important; text-align: center !important; }"
+               "#cardRoot p { margin: 0 !important; }"
+               "</style>"
+               "<table width=\"100%%\" height=\"100%%\" cellspacing=\"0\" cellpadding=\"0\">"
+               "<tr><td align=\"center\" valign=\"middle\">"
+               "<div id=\"cardRoot\">%2</div>"
+               "</td></tr>"
+               "</table>")
+        .arg(fontPointSize)
+        .arg(html);
 }
 
 // ── Construction ─────────────────────────────────────────────────────────────
@@ -83,8 +110,11 @@ void LearnWidget::setupUi()
     m_cardFront->setOpenExternalLinks(false);
     m_cardFront->setAlignment(Qt::AlignCenter);
     m_cardFront->setStyleSheet("background: transparent;");
+    m_cardFront->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_cardFront->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_cardFront->document()->setDocumentMargin(0);
     QFont frontFont = m_cardFront->font();
-    frontFont.setPointSize(frontFont.pointSize() + 2);
+    frontFont.setPointSize(scaledCardPointSize(frontFont));
     m_cardFront->setFont(frontFont);
 
     m_separatorLabel = new QLabel("─────────", m_cardFrame);
@@ -100,6 +130,12 @@ void LearnWidget::setupUi()
     m_cardBack->setOpenExternalLinks(false);
     m_cardBack->setAlignment(Qt::AlignCenter);
     m_cardBack->setStyleSheet("background: transparent;");
+    m_cardBack->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_cardBack->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_cardBack->document()->setDocumentMargin(0);
+    QFont backFont = m_cardBack->font();
+    backFont.setPointSize(scaledCardPointSize(backFont));
+    m_cardBack->setFont(backFont);
     m_cardBack->hide();
 
     auto* cardLayout = new QVBoxLayout(m_cardFrame);
@@ -292,10 +328,13 @@ void LearnWidget::showCurrentCard()
     }
 
     const auto& card = m_queue.first();
-    m_cardFront->setHtml(card->front.isEmpty()
-                         ? tr("<i>(Пустая карточка)</i>")
-                         : card->front);
-    m_cardBack->setHtml(card->back);
+    const QString frontHtml = card->front.isEmpty()
+                              ? tr("<i>(Пустая карточка)</i>")
+                              : card->front;
+    const int frontPointSize = m_cardFront->font().pointSize();
+    const int backPointSize  = m_cardBack->font().pointSize();
+    m_cardFront->setHtml(centeredCardHtml(frontHtml, frontPointSize));
+    m_cardBack->setHtml(centeredCardHtml(card->back, backPointSize));
 
     m_controlStack->setCurrentIndex(PageQuestion);
     updateIntervalLabels();
