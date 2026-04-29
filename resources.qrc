@@ -1,0 +1,29 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource prefix="/">
+    <file>icons/add.svg</file>
+    <file>icons/delete.svg</file>
+    <file>icons/edit.svg</file>
+    <file>icons/play_arrow.svg</file>
+    <file>icons/folder_open.svg</file>
+    <file>icons/note_add.svg</file>
+    <file>icons/save.svg</file>
+    <file>icons/save_as.svg</file>
+    <file>icons/undo.svg</file>
+    <file>icons/redo.svg</file>
+    <file>icons/visibility.svg</file>
+    <file>icons/star.svg</file>
+    <file>icons/sentiment_satisfied.svg</file>
+    <file>icons/sentiment_dissatisfied.svg</file>
+    <file>icons/close.svg</file>
+    <file>icons/history.svg</file>
+    <file>icons/arrow_back.svg</file>
+    <file>icons/format_bold.svg</file>
+    <file>icons/format_italic.svg</file>
+    <file>icons/format_underlined.svg</file>
+    <file>icons/celebration.svg</file>
+    <file>icons/info.svg</file>
+    <file>icons/deck.svg</file>
+    <file>icons/app_icon.svg</file>
+  </qresource>
+</RCC>
