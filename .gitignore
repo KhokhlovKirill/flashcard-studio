@@ -2,3 +2,6 @@
 build/
 build-mingw/
 .vscode/
+_CPack_Packages/
+debug-*.log
+FlashCard*.exe

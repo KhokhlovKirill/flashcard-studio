@@ -1,0 +1,54 @@
+name: Build Windows Installer
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  windows-installer:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Qt 6
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: "6.7.2"
+          arch: "win64_mingw"
+          tools: "tools_mingw1310"
+          cache: true
+
+      - name: Add MinGW to PATH
+        shell: pwsh
+        run: |
+          $qtRoot = (Resolve-Path (Join-Path $env:Qt6_DIR "..\..\..")).Path
+          $qtBase = (Resolve-Path (Join-Path $qtRoot "..\..")).Path
+          $mingwBin = Join-Path $qtBase "Tools\mingw1310_64\bin"
+          Add-Content -Path $env:GITHUB_PATH -Value $mingwBin
+
+      - name: Configure
+        shell: pwsh
+        run: |
+          $qtRoot = (Resolve-Path (Join-Path $env:Qt6_DIR "..\..\..")).Path
+          cmake -S . -B build-mingw -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$qtRoot"
+
+      - name: Build
+        run: cmake --build build-mingw --parallel
+
+      - name: Install to staging
+        run: cmake --install build-mingw --prefix build-mingw/install
+
+      - name: Create NSIS package
+        run: cpack -G NSIS --config build-mingw/CPackConfig.cmake
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flashcards-studio-windows-installer
+          path: |
+            build-mingw/*.exe
+
