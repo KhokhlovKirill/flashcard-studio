@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     QApplication app(argc, argv);
 
     // Application meta-info (used by QSettings)
-    QApplication::setApplicationName("FlashCardStudio");
+    QApplication::setApplicationName("FlashCard Studio");
     QApplication::setOrganizationName("FlashCardStudio");
     QApplication::setApplicationVersion("1.0");
 

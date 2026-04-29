@@ -54,13 +54,6 @@ void StartScreen::setupUi()
     appNameLabel->setAlignment(Qt::AlignCenter);
     appNameLabel->setStyleSheet("color: white;");
 
-    // Tagline
-    auto* taglineLabel = new QLabel(
-        tr("Умное повторение карточек"), leftPanel);
-    taglineLabel->setAlignment(Qt::AlignCenter);
-    taglineLabel->setStyleSheet("color: rgba(255,255,255,0.75); font-size: 11px;");
-    taglineLabel->setWordWrap(true);
-
     // Buttons
     auto* newBtn  = makeActionButton(
         QIcon(":/icons/note_add.svg"), tr("  Новый проект"));
@@ -77,7 +70,6 @@ void StartScreen::setupUi()
     leftLayout->addWidget(appIconLabel);
     leftLayout->addSpacing(8);
     leftLayout->addWidget(appNameLabel);
-    leftLayout->addWidget(taglineLabel);
     leftLayout->addSpacing(32);
     leftLayout->addWidget(newBtn);
     leftLayout->addWidget(openBtn);
