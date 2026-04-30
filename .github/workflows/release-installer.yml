@@ -22,20 +22,20 @@ jobs:
           version: "6.7.2"
           arch: "win64_mingw"
           tools: "tools_mingw1310"
-          dir: "${{ runner.workspace }}/Qt"
           cache: true
 
-      # Qt6_DIR is NOT reliable when restored from cache, so derive all paths
-      # from the known installation dir set above.
+      # The action always exports IQTA_TOOLS and QT_ROOT_DIR regardless of
+      # whether Qt was restored from cache or freshly installed. We rely on
+      # these instead of computing paths ourselves, because the action adds an
+      # implicit extra "Qt" subfolder to any custom dir value.
       - name: Add MinGW to PATH
         shell: pwsh
         run: |
-          $mingwBin = Join-Path "${{ runner.workspace }}" "Qt\Tools\mingw1310_64\bin"
+          $mingwBin = Join-Path $env:IQTA_TOOLS "mingw1310_64\bin"
           if (-not (Test-Path $mingwBin)) {
-            Write-Host "MinGW not found at expected path: $mingwBin"
-            Write-Host "Contents of Qt\Tools:"
-            Get-ChildItem (Join-Path "${{ runner.workspace }}" "Qt\Tools") -ErrorAction SilentlyContinue |
-              Select-Object Name
+            Write-Host "MinGW not found at: $mingwBin"
+            Write-Host "IQTA_TOOLS = $env:IQTA_TOOLS"
+            Get-ChildItem $env:IQTA_TOOLS -ErrorAction SilentlyContinue | Select-Object Name
             exit 1
           }
           Write-Host "Adding to PATH: $mingwBin"
@@ -44,10 +44,9 @@ jobs:
       - name: Configure
         shell: pwsh
         run: |
-          $qtPrefix = Join-Path "${{ runner.workspace }}" "Qt\6.7.2\mingw_64"
           cmake -S . -B build-mingw -G "MinGW Makefiles" `
             -DCMAKE_BUILD_TYPE=Release `
-            "-DCMAKE_PREFIX_PATH=$qtPrefix"
+            "-DCMAKE_PREFIX_PATH=$env:QT_ROOT_DIR"
 
       - name: Build
         run: cmake --build build-mingw --parallel
@@ -55,8 +54,8 @@ jobs:
       - name: Install to staging
         run: cmake --install build-mingw --prefix build-mingw/install
 
-      # Run cpack from the build directory so the .exe is created inside it,
-      # not in the repo root.
+      # Run cpack from the build directory so the installer .exe lands inside
+      # it rather than in the repo root.
       - name: Create NSIS installer
         working-directory: build-mingw
         run: cpack -G NSIS --config CPackConfig.cmake
