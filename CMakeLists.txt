@@ -128,19 +128,13 @@ if(WIN32)
     set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/icons/app_icon.ico")
     set(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}/icons/app_icon.ico")
     set(CPACK_NSIS_MODIFY_PATH OFF)
-    #region agent log
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS [=[
 WriteRegStr HKCU "Software\\Classes\\.flcr" "" "FlashCardStudio.Project"
 WriteRegStr HKCU "Software\\Classes\\FlashCardStudio.Project" "" "FlashCard Studio Project"
 WriteRegStr HKCU "Software\\Classes\\FlashCardStudio.Project\\DefaultIcon" "" "$INSTDIR\\bin\\FlashCardStudio.exe,0"
 WriteRegStr HKCU "Software\\Classes\\FlashCardStudio.Project\\shell\\open\\command" "" '"$INSTDIR\\bin\\FlashCardStudio.exe" "%1"'
 System::Call 'shell32::SHChangeNotify(i,i,p,p)'(0x8000000,0,0,0)
-ReadRegStr $0 HKCR ".flcr" ""
-ReadRegStr $1 HKCR "FlashCardStudio.Project\\shell\\open\\command" ""
-ReadRegStr $2 HKCU "Software\\Classes\\.flcr" ""
-ReadRegStr $3 HKCU "Software\\Classes\\FlashCardStudio.Project\\shell\\open\\command" ""
 ]=])
-    #endregion
     set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS [=[
 DeleteRegKey HKCU "Software\\Classes\\FlashCardStudio.Project"
 DeleteRegKey HKCU "Software\\Classes\\.flcr"
