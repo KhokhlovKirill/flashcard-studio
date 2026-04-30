@@ -15,6 +15,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Resolve package version
+        id: package_version
+        shell: pwsh
+        run: |
+          $tagFromRef = $null
+          if ($env:GITHUB_REF -like "refs/tags/*") {
+            $tagFromRef = $env:GITHUB_REF -replace "^refs/tags/", ""
+          }
+
+          $tagAtHead = (git tag --points-at HEAD | Select-Object -First 1)
+          $tag = if ($tagFromRef) { $tagFromRef } elseif ($tagAtHead) { $tagAtHead.Trim() } else { "" }
+
+          if ($tag) {
+            $version = $tag -replace "^v", ""
+          } else {
+            $buildDate = Get-Date -Format "yyyyMMdd"
+            $version = "unversioned-$buildDate"
+          }
+
+          "value=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          Write-Host "Resolved package version: $version"
 
       - name: Setup Qt 6
         uses: jurplel/install-qt-action@v4
@@ -46,7 +71,8 @@ jobs:
         run: |
           cmake -S . -B build-mingw -G "MinGW Makefiles" `
             -DCMAKE_BUILD_TYPE=Release `
-            "-DCMAKE_PREFIX_PATH=$env:QT_ROOT_DIR"
+            "-DCMAKE_PREFIX_PATH=$env:QT_ROOT_DIR" `
+            "-DFLASHCARD_STUDIO_PACKAGE_VERSION_OVERRIDE=${{ steps.package_version.outputs.value }}"
 
       - name: Build
         run: cmake --build build-mingw --parallel
