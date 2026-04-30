@@ -9,6 +9,8 @@ on:
 jobs:
   windows-installer:
     runs-on: windows-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
@@ -20,21 +22,32 @@ jobs:
           version: "6.7.2"
           arch: "win64_mingw"
           tools: "tools_mingw1310"
+          dir: "${{ runner.workspace }}/Qt"
           cache: true
 
+      # Qt6_DIR is NOT reliable when restored from cache, so derive all paths
+      # from the known installation dir set above.
       - name: Add MinGW to PATH
         shell: pwsh
         run: |
-          $qtRoot = (Resolve-Path (Join-Path $env:Qt6_DIR "..\..\..")).Path
-          $qtBase = (Resolve-Path (Join-Path $qtRoot "..\..")).Path
-          $mingwBin = Join-Path $qtBase "Tools\mingw1310_64\bin"
+          $mingwBin = Join-Path "${{ runner.workspace }}" "Qt\Tools\mingw1310_64\bin"
+          if (-not (Test-Path $mingwBin)) {
+            Write-Host "MinGW not found at expected path: $mingwBin"
+            Write-Host "Contents of Qt\Tools:"
+            Get-ChildItem (Join-Path "${{ runner.workspace }}" "Qt\Tools") -ErrorAction SilentlyContinue |
+              Select-Object Name
+            exit 1
+          }
+          Write-Host "Adding to PATH: $mingwBin"
           Add-Content -Path $env:GITHUB_PATH -Value $mingwBin
 
       - name: Configure
         shell: pwsh
         run: |
-          $qtRoot = (Resolve-Path (Join-Path $env:Qt6_DIR "..\..\..")).Path
-          cmake -S . -B build-mingw -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="$qtRoot"
+          $qtPrefix = Join-Path "${{ runner.workspace }}" "Qt\6.7.2\mingw_64"
+          cmake -S . -B build-mingw -G "MinGW Makefiles" `
+            -DCMAKE_BUILD_TYPE=Release `
+            "-DCMAKE_PREFIX_PATH=$qtPrefix"
 
       - name: Build
         run: cmake --build build-mingw --parallel
@@ -42,13 +55,20 @@ jobs:
       - name: Install to staging
         run: cmake --install build-mingw --prefix build-mingw/install
 
-      - name: Create NSIS package
-        run: cpack -G NSIS --config build-mingw/CPackConfig.cmake
+      # Run cpack from the build directory so the .exe is created inside it,
+      # not in the repo root.
+      - name: Create NSIS installer
+        working-directory: build-mingw
+        run: cpack -G NSIS --config CPackConfig.cmake
 
       - name: Upload installer artifact
         uses: actions/upload-artifact@v4
         with:
           name: flashcards-studio-windows-installer
-          path: |
-            build-mingw/*.exe
+          path: build-mingw/*.exe
 
+      - name: Publish to GitHub Releases
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build-mingw/*.exe
