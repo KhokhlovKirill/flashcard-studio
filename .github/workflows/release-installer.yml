@@ -54,6 +54,10 @@ jobs:
       - name: Install to staging
         run: cmake --install build-mingw --prefix build-mingw/install
 
+      # NSIS is not pre-installed on the windows-2025 runner image.
+      - name: Install NSIS
+        run: choco install nsis --yes --no-progress
+
       # Run cpack from the build directory so the installer .exe lands inside
       # it rather than in the repo root.
       - name: Create NSIS installer
