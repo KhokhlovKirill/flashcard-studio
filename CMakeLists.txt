@@ -78,6 +78,25 @@ install(TARGETS FlashCardStudio
     BUNDLE DESTINATION .
 )
 
+if(WIN32 AND MINGW)
+    foreach(_mingw_runtime_dll
+        "libstdc++-6.dll"
+        "libgcc_s_seh-1.dll"
+        "libwinpthread-1.dll"
+    )
+        execute_process(
+            COMMAND ${CMAKE_CXX_COMPILER} -print-file-name=${_mingw_runtime_dll}
+            OUTPUT_VARIABLE _resolved_mingw_runtime_dll
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+        if(EXISTS "${_resolved_mingw_runtime_dll}")
+            install(FILES "${_resolved_mingw_runtime_dll}" DESTINATION bin)
+        else()
+            message(WARNING "MinGW runtime DLL not found: ${_mingw_runtime_dll}")
+        endif()
+    endforeach()
+endif()
+
 qt_generate_deploy_app_script(
     TARGET FlashCardStudio
     OUTPUT_SCRIPT qt_deploy_script
