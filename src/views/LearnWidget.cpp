@@ -13,6 +13,7 @@
 #include <QFont>
 #include <QFontInfo>
 #include <QIcon>
+#include <QSizePolicy>
 
 // ── Rating button helper ─────────────────────────────────────────────────────
 
@@ -46,6 +47,7 @@ static QString centeredCardHtml(const QString& html, int fontPointSize)
 {
     return QString(
                "<style>"
+               "#cardRoot { width: 100%%; max-width: 100%%; word-wrap: break-word; }"
                "#cardRoot, #cardRoot * { font-size: %1pt !important; text-align: center !important; }"
                "#cardRoot p { margin: 0 !important; }"
                "</style>"
@@ -113,6 +115,7 @@ void LearnWidget::setupUi()
     m_cardFront->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_cardFront->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_cardFront->document()->setDocumentMargin(0);
+    m_cardFront->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QFont frontFont = m_cardFront->font();
     frontFont.setPointSize(scaledCardPointSize(frontFont));
     m_cardFront->setFont(frontFont);
@@ -133,6 +136,7 @@ void LearnWidget::setupUi()
     m_cardBack->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_cardBack->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_cardBack->document()->setDocumentMargin(0);
+    m_cardBack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QFont backFont = m_cardBack->font();
     backFont.setPointSize(scaledCardPointSize(backFont));
     m_cardBack->setFont(backFont);
@@ -142,9 +146,10 @@ void LearnWidget::setupUi()
     cardLayout->setContentsMargins(24, 24, 24, 24);
     cardLayout->setSpacing(8);
     cardLayout->addStretch();
-    cardLayout->addWidget(m_cardFront,     1, Qt::AlignCenter);
+    // No horizontal Align* on QTextBrowser: Qt::AlignCenter would shrink them to sizeHint width.
+    cardLayout->addWidget(m_cardFront,       1);
     cardLayout->addWidget(m_separatorLabel, 0, Qt::AlignCenter);
-    cardLayout->addWidget(m_cardBack,      1, Qt::AlignCenter);
+    cardLayout->addWidget(m_cardBack,        1);
     cardLayout->addStretch();
 
     // ── Control: question page ────────────────────────────────────────────

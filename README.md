@@ -31,8 +31,10 @@ $env:Path = "C:\Qt\Tools\mingw1310_64\bin;$env:Path"
 cmake -S . -B build-mingw -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="C:/Qt/6.11.0/mingw_64"
 cmake --build build-mingw --parallel
 cmake --install build-mingw --prefix build-mingw/install
-cpack -G NSIS --config build-mingw/CPackConfig.cmake
+cpack -B build-mingw -G NSIS
 ```
+
+If CPack reports that `CPackConfig.cmake` is missing: the name must be exactly **`CPackConfig.cmake`** (not `cmakem`). Re-run the `cmake -S . -B build-mingw ...` line so the build directory is configured again, then repeat `cmake --install` and `cpack`.
 
 ### Installer Output
 
