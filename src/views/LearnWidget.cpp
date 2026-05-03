@@ -43,23 +43,6 @@ static int scaledCardPointSize(const QFont& font)
     return basePointSize * 3;
 }
 
-static QString centeredCardHtml(const QString& html, int fontPointSize)
-{
-    return QString(
-               "<style>"
-               "#cardRoot { width: 100%%; max-width: 100%%; word-wrap: break-word; }"
-               "#cardRoot, #cardRoot * { font-size: %1pt !important; text-align: center !important; }"
-               "#cardRoot p { margin: 0 !important; }"
-               "</style>"
-               "<table width=\"100%%\" height=\"100%%\" cellspacing=\"0\" cellpadding=\"0\">"
-               "<tr><td align=\"center\" valign=\"middle\">"
-               "<div id=\"cardRoot\">%2</div>"
-               "</td></tr>"
-               "</table>")
-        .arg(fontPointSize)
-        .arg(html);
-}
-
 // ── Construction ─────────────────────────────────────────────────────────────
 
 LearnWidget::LearnWidget(QWidget* parent)
@@ -106,15 +89,10 @@ void LearnWidget::setupUi()
     shadow->setColor(QColor(0, 0, 0, 40));
     m_cardFrame->setGraphicsEffect(shadow);
 
-    m_cardFront = new QTextBrowser(m_cardFrame);
-    m_cardFront->setFrameShape(QFrame::NoFrame);
-    m_cardFront->setReadOnly(true);
-    m_cardFront->setOpenExternalLinks(false);
+    m_cardFront = new QLabel(m_cardFrame);
+    m_cardFront->setWordWrap(true);
     m_cardFront->setAlignment(Qt::AlignCenter);
     m_cardFront->setStyleSheet("background: transparent;");
-    m_cardFront->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_cardFront->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_cardFront->document()->setDocumentMargin(0);
     m_cardFront->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QFont frontFont = m_cardFront->font();
     frontFont.setPointSize(scaledCardPointSize(frontFont));
@@ -127,15 +105,10 @@ void LearnWidget::setupUi()
         .arg(ThemeManager::instance().cardBorder().name()));
     m_separatorLabel->hide();
 
-    m_cardBack = new QTextBrowser(m_cardFrame);
-    m_cardBack->setFrameShape(QFrame::NoFrame);
-    m_cardBack->setReadOnly(true);
-    m_cardBack->setOpenExternalLinks(false);
+    m_cardBack = new QLabel(m_cardFrame);
+    m_cardBack->setWordWrap(true);
     m_cardBack->setAlignment(Qt::AlignCenter);
     m_cardBack->setStyleSheet("background: transparent;");
-    m_cardBack->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_cardBack->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_cardBack->document()->setDocumentMargin(0);
     m_cardBack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     QFont backFont = m_cardBack->font();
     backFont.setPointSize(scaledCardPointSize(backFont));
@@ -146,10 +119,11 @@ void LearnWidget::setupUi()
     cardLayout->setContentsMargins(24, 24, 24, 24);
     cardLayout->setSpacing(8);
     cardLayout->addStretch();
-    // No horizontal Align* on QTextBrowser: Qt::AlignCenter would shrink them to sizeHint width.
-    cardLayout->addWidget(m_cardFront,       1);
+    // Stretch factor 0: widgets keep their natural size; stretch items above/below center them.
+    // Horizontal centering via Qt::AlignHCenter; QLabel uses Qt::AlignCenter for text.
+    cardLayout->addWidget(m_cardFront,       0, Qt::AlignHCenter);
     cardLayout->addWidget(m_separatorLabel, 0, Qt::AlignCenter);
-    cardLayout->addWidget(m_cardBack,        1);
+    cardLayout->addWidget(m_cardBack,        0, Qt::AlignHCenter);
     cardLayout->addStretch();
 
     // ── Control: question page ────────────────────────────────────────────
@@ -333,13 +307,11 @@ void LearnWidget::showCurrentCard()
     }
 
     const auto& card = m_queue.first();
-    const QString frontHtml = card->front.isEmpty()
-                              ? tr("<i>(Пустая карточка)</i>")
-                              : card->front;
-    const int frontPointSize = m_cardFront->font().pointSize();
-    const int backPointSize  = m_cardBack->font().pointSize();
-    m_cardFront->setHtml(centeredCardHtml(frontHtml, frontPointSize));
-    m_cardBack->setHtml(centeredCardHtml(card->back, backPointSize));
+    const QString frontText = card->front.isEmpty()
+                               ? tr("<i>(Пустая карточка)</i>")
+                               : card->front;
+    m_cardFront->setText(frontText);
+    m_cardBack->setText(card->back);
 
     m_controlStack->setCurrentIndex(PageQuestion);
     updateIntervalLabels();
@@ -353,7 +325,7 @@ void LearnWidget::advanceToNext()
 
 void LearnWidget::showFinishedScreen()
 {
-    m_cardFront->setHtml(QString());
+    m_cardFront->setText(QString());
     m_cardBack->hide();
     m_separatorLabel->hide();
     m_controlStack->setCurrentIndex(PageFinished);

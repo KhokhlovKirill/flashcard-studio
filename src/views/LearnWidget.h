@@ -2,7 +2,6 @@
 
 #include <QWidget>
 #include <QFrame>
-#include <QTextBrowser>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QLabel>
@@ -61,8 +60,8 @@ private:
 
     // Card display
     QFrame*         m_cardFrame{nullptr};
-    QTextBrowser*   m_cardFront{nullptr};
-    QTextBrowser*   m_cardBack{nullptr};
+    QLabel*         m_cardFront{nullptr};
+    QLabel*         m_cardBack{nullptr};
     QLabel*         m_separatorLabel{nullptr};
 
     // Control panels stacked: 0=question, 1=answer, 2=finished
