@@ -56,24 +56,19 @@
 
 При запуске приложения открывается **стартовый экран**.
 
-<svg xmlns="http://www.w3.org/2000/svg" width="500" height="200" font-family="'Segoe UI', Arial, sans-serif">
-  <rect x="0.5" y="0.5" width="499" height="199" rx="6" fill="white" stroke="#c8c8c8" stroke-width="1"/>
-  <clipPath id="sc-clip"><rect x="0.5" y="0.5" width="499" height="199" rx="6"/></clipPath>
-  <rect x="0" y="0" width="170" height="200" fill="#5c6bc0" clip-path="url(#sc-clip)"/>
-  <line x1="170" y1="0" x2="170" y2="200" stroke="#9fa8da" stroke-width="1"/>
-  <text x="85" y="46" text-anchor="middle" font-size="15" font-weight="bold" fill="white">FlashCard</text>
-  <text x="85" y="65" text-anchor="middle" font-size="15" font-weight="bold" fill="white">Studio</text>
-  <rect x="15" y="88" width="140" height="30" rx="6" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
-  <text x="85" y="108" text-anchor="middle" font-size="12" fill="white">📄 Создать проект</text>
-  <rect x="15" y="132" width="140" height="30" rx="6" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
-  <text x="85" y="152" text-anchor="middle" font-size="12" fill="white">📂 Открыть проект</text>
-  <text x="186" y="26" font-size="12" fill="#616161">🕒 Недавние проекты</text>
-  <line x1="186" y1="33" x2="490" y2="33" stroke="#e0e0e0" stroke-width="1"/>
-  <rect x="186" y="46" width="230" height="12" rx="3" fill="#eeeeee"/>
-  <rect x="186" y="69" width="180" height="12" rx="3" fill="#eeeeee"/>
-  <rect x="186" y="92" width="210" height="12" rx="3" fill="#eeeeee"/>
-  <text x="335" y="162" text-anchor="middle" font-size="11" fill="#bdbdbd">(файлы .flcr)</text>
-</svg>
+```
+┌──────────────────┬─────────────────────────────────┐
+│                  │  🕒 Недавние проекты             │
+│  FlashCard       │                                  │
+│  Studio          │  (список последних открытых      │
+│                  │   файлов .flcr)                  │
+│  📄 Создать      │                                  │
+│     проект       │                                  │
+│                  │                                  │
+│  📂 Открыть      │                                  │
+│     проект       │                                  │
+└──────────────────┴─────────────────────────────────┘
+```
 
 - **Левая панель** содержит кнопки для создания нового проекта или открытия существующего.
 - **Правая панель** показывает список недавно открытых проектов. Двойной клик по записи мгновенно открывает его.
@@ -138,50 +133,23 @@
 
 Нажмите кнопку ✏️ рядом с колодой — откроется **экран редактирования**.
 
-<svg xmlns="http://www.w3.org/2000/svg" width="580" height="278" font-family="'Segoe UI', Arial, sans-serif">
-  <rect x="0.5" y="0.5" width="579" height="277" rx="4" fill="white" stroke="#c8c8c8" stroke-width="1"/>
-  <rect x="0.5" y="0.5" width="579" height="36" rx="4" fill="#f5f5f5"/>
-  <rect x="0.5" y="20" width="579" height="17" fill="#f5f5f5"/>
-  <text x="12" y="22" font-size="12" fill="#424242">Название колоды</text>
-  <rect x="285" y="8" width="92" height="22" rx="4" fill="#5c6bc0"/>
-  <text x="331" y="23" text-anchor="middle" font-size="11" fill="white">➕ Добавить</text>
-  <rect x="383" y="8" width="82" height="22" rx="4" fill="#ef5350"/>
-  <text x="424" y="23" text-anchor="middle" font-size="11" fill="white">🗑️ Удалить</text>
-  <text x="480" y="23" font-size="11" fill="#9e9e9e">Карточек: 12</text>
-  <line x1="0.5" y1="36.5" x2="579.5" y2="36.5" stroke="#e0e0e0" stroke-width="1"/>
-  <rect x="0.5" y="36.5" width="579" height="24" fill="#fafafa"/>
-  <text x="14" y="52" font-size="11" fill="#757575">Вопрос</text>
-  <text x="297" y="52" font-size="11" fill="#757575">Ответ</text>
-  <line x1="288" y1="36.5" x2="288" y2="114" stroke="#eeeeee" stroke-width="1"/>
-  <line x1="0.5" y1="60.5" x2="579.5" y2="60.5" stroke="#eeeeee" stroke-width="1"/>
-  <text x="14" y="78" font-size="12" fill="#333">hola</text>
-  <text x="297" y="78" font-size="12" fill="#333">hello</text>
-  <line x1="0.5" y1="87.5" x2="579.5" y2="87.5" stroke="#f0f0f0" stroke-width="1"/>
-  <rect x="0.5" y="87.5" width="579" height="26" fill="#e8eaf6"/>
-  <text x="14" y="105" font-size="12" fill="#283593">▶ guten Morgen</text>
-  <text x="297" y="105" font-size="12" fill="#283593">доброе утро</text>
-  <line x1="288" y1="87.5" x2="288" y2="113.5" stroke="#c5cae9" stroke-width="1"/>
-  <line x1="0.5" y1="113.5" x2="579.5" y2="113.5" stroke="#c8c8c8" stroke-width="1.5"/>
-  <line x1="288" y1="113.5" x2="288" y2="277.5" stroke="#e0e0e0" stroke-width="1"/>
-  <text x="12" y="131" font-size="11" fill="#9e9e9e">Лицевая сторона</text>
-  <rect x="12" y="137" width="22" height="18" rx="3" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
-  <text x="23" y="150" text-anchor="middle" font-size="11" font-weight="bold" fill="#424242">Ж</text>
-  <rect x="38" y="137" width="22" height="18" rx="3" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
-  <text x="49" y="150" text-anchor="middle" font-size="11" font-style="italic" fill="#424242">К</text>
-  <rect x="64" y="137" width="22" height="18" rx="3" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
-  <text x="75" y="150" text-anchor="middle" font-size="11" text-decoration="underline" fill="#424242">Ч</text>
-  <rect x="12" y="160" width="262" height="104" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
-  <text x="22" y="184" font-size="13" font-weight="bold" fill="#212121">guten Morgen</text>
-  <text x="300" y="131" font-size="11" fill="#9e9e9e">Обратная сторона</text>
-  <rect x="300" y="137" width="22" height="18" rx="3" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
-  <text x="311" y="150" text-anchor="middle" font-size="11" font-weight="bold" fill="#424242">Ж</text>
-  <rect x="326" y="137" width="22" height="18" rx="3" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
-  <text x="337" y="150" text-anchor="middle" font-size="11" font-style="italic" fill="#424242">К</text>
-  <rect x="352" y="137" width="22" height="18" rx="3" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
-  <text x="363" y="150" text-anchor="middle" font-size="11" text-decoration="underline" fill="#424242">Ч</text>
-  <rect x="300" y="160" width="264" height="104" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
-  <text x="310" y="184" font-size="13" fill="#212121">доброе утро</text>
-</svg>
+```
+┌──────────────────────────────────────────────────────────────┐
+│  Название колоды        [➕ Добавить]  [🗑️ Удалить]  Карточек: 12 │
+├──────────────────────────────────────────────────────────────┤
+│  Вопрос                    │  Ответ                          │
+│  ─────────────────────────────────────────────────────────   │
+│  hola                      │  hello                          │
+│  guten Morgen              │  доброе утро                    │
+│  ▶ (выбранная строка)      │                                 │
+├──────────────────────────────────────────────────────────────┤
+│  [Ж] [К] [Ч]               │  [Ж] [К] [Ч]                   │
+│  ┌──────────────────────┐  │  ┌──────────────────────────┐   │
+│  │ Лицевая сторона      │  │  │ Обратная сторона         │   │
+│  │ (поле ввода вопроса) │  │  │ (поле ввода ответа)      │   │
+│  └──────────────────────┘  │  └──────────────────────────┘   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### Добавление карточки
 
@@ -225,17 +193,15 @@
 
 На экране отображается **лицевая сторона** карточки. Прочитайте её и постарайтесь вспомнить ответ.
 
-<svg xmlns="http://www.w3.org/2000/svg" width="380" height="155" font-family="'Segoe UI', Arial, sans-serif">
-  <defs>
-    <filter id="s1" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#00000016"/>
-    </filter>
-  </defs>
-  <rect x="40" y="10" width="300" height="100" rx="10" fill="white" stroke="#e0e0e0" stroke-width="1.5" filter="url(#s1)"/>
-  <text x="190" y="68" text-anchor="middle" font-size="28" font-weight="bold" fill="#212121">hola</text>
-  <rect x="115" y="124" width="150" height="25" rx="12" fill="#eeeeee" stroke="#e0e0e0" stroke-width="1"/>
-  <text x="190" y="141" text-anchor="middle" font-size="12" fill="#616161">👁️ Показать ответ</text>
-</svg>
+```
+┌─────────────────────────────┐
+│                             │
+│         hola                │
+│                             │
+└─────────────────────────────┘
+
+         [👁️ Показать ответ]
+```
 
 Нажмите кнопку **«Показать ответ»** или клавишу `Пробел`.
 
@@ -243,29 +209,16 @@
 
 Откроется **обратная сторона** карточки. Оцените, насколько хорошо вы вспомнили ответ, выбрав одну из четырёх кнопок:
 
-<svg xmlns="http://www.w3.org/2000/svg" width="460" height="195" font-family="'Segoe UI', Arial, sans-serif">
-  <defs>
-    <filter id="s2" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#00000016"/>
-    </filter>
-  </defs>
-  <rect x="30" y="8" width="400" height="98" rx="10" fill="white" stroke="#e0e0e0" stroke-width="1.5" filter="url(#s2)"/>
-  <text x="230" y="44" text-anchor="middle" font-size="20" font-weight="bold" fill="#212121">hola</text>
-  <line x1="55" y1="58" x2="405" y2="58" stroke="#eeeeee" stroke-width="1.5"/>
-  <text x="230" y="93" text-anchor="middle" font-size="20" fill="#424242">hello</text>
-  <rect x="30" y="122" width="90" height="30" rx="6" fill="#e53935"/>
-  <text x="75" y="141" text-anchor="middle" font-size="12" font-weight="bold" fill="white">✖ Снова</text>
-  <text x="75" y="170" text-anchor="middle" font-size="11" fill="#9e9e9e">1 д.</text>
-  <rect x="130" y="122" width="90" height="30" rx="6" fill="#ef6c00"/>
-  <text x="175" y="141" text-anchor="middle" font-size="12" font-weight="bold" fill="white">😟 Трудно</text>
-  <text x="175" y="170" text-anchor="middle" font-size="11" fill="#9e9e9e">4 д.</text>
-  <rect x="230" y="122" width="90" height="30" rx="6" fill="#1565c0"/>
-  <text x="275" y="141" text-anchor="middle" font-size="12" font-weight="bold" fill="white">🙂 Хорошо</text>
-  <text x="275" y="170" text-anchor="middle" font-size="11" fill="#9e9e9e">15 д.</text>
-  <rect x="330" y="122" width="100" height="30" rx="6" fill="#2e7d32"/>
-  <text x="380" y="141" text-anchor="middle" font-size="12" font-weight="bold" fill="white">⭐ Легко</text>
-  <text x="380" y="170" text-anchor="middle" font-size="11" fill="#9e9e9e">28 д.</text>
-</svg>
+```
+┌─────────────────────────────┐
+│         hola                │
+│  ──────────────────────── │
+│         hello               │
+└─────────────────────────────┘
+
+ [✖️ Снова]  [😟 Трудно]  [🙂 Хорошо]  [⭐ Легко]
+   1 д.        4 д.         15 д.        28 д.
+```
 
 Под каждой кнопкой показано, **через сколько дней** карточка появится снова при выборе этого ответа.
 
@@ -288,11 +241,10 @@
 
 Когда все карточки пройдены, появляется экран с сообщением:
 
-<svg xmlns="http://www.w3.org/2000/svg" width="280" height="110" font-family="'Segoe UI', Arial, sans-serif">
-  <rect x="0.5" y="0.5" width="279" height="109" rx="10" fill="white" stroke="#e0e0e0" stroke-width="1"/>
-  <text x="140" y="54" text-anchor="middle" font-size="34">🎉</text>
-  <text x="140" y="88" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">На сегодня всё!</text>
-</svg>
+```
+        🎉
+   На сегодня всё!
+```
 
 Нажмите кнопку «Назад» в верхнем левом углу, чтобы вернуться к списку колод.
 

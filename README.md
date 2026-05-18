@@ -10,6 +10,13 @@
 
 ---
 
+## Documentation
+
+- [Developer Documentation (English)](DEV_DOCS_EN.md)
+- [Документация для разработчиков (Русский)](DEV_DOCS_RU.md)
+- [User Guide (English)](USER_DOCS_EN.md)
+- [Руководство пользователя (Русский)](USER_DOCS_RU.md)
+
 ## Build Windows Installer (NSIS)
 
 This project uses CMake + CPack to generate a Windows installer with Qt runtime dependencies included.
